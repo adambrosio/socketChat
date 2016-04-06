@@ -1,0 +1,18 @@
+extends ./layout.jade
+block head
+	script(src='/socket.io/socket.io.js')
+	script(src='http://code.jquery.com/jquery-1.11.1.js')
+	script
+		include ../src/common.js
+block content
+	ul#messages
+	form
+		input#name(
+			type='hidden'
+		)
+		input#m(
+			type='text'
+			autocomplete='off'
+			autofocus
+		)
+		button Send

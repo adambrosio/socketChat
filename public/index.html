@@ -1,0 +1,64 @@
+<html>
+<head>
+	<title>Bienvenido!!</title>
+</head>	
+<body>
+		<p>
+			Se abrirá en <span id="seg"/>
+		</p>
+		<button id="abrir" onclick="abrirVentanas();" style="display:none;">Abrir ventanas</button>
+		<button id="cerrar" onclick="cerrarVentanas();" style="display:none;">Cerrar ventanas</button>
+</body>
+	<script type="text/javascript" defer="defer">
+		var positions = [{left: "1", top: "1"}
+						,{left: "551", top: "1"}
+/*						,{left: "1", top: "501"}
+						,{left: "551", top: "501"}*/
+						];
+		var ventanas = [];
+		var refreshIntervalId
+		
+		var segundos;
+		var i;
+
+		function popup() {
+			console.log("popup");
+			var win = window.open("/app", "_blank", "height=400px,width=550px,toolbar=no,location=no,left="+positions[i].left+",top="+positions[i].top);
+			i++;
+			ventanas.push(win);
+			if (positions[i]) {
+				segundos = 1;
+				document.getElementById("seg").innerHTML=segundos;
+
+				setTimeout(popup, 1000);
+			} else {
+				clearInterval(refreshIntervalId);
+				document.getElementById("cerrar").style.display = "block";
+			}
+		};
+
+		function abrirVentanas() {
+			segundos = 3;
+			i = 0;
+
+			document.getElementById("seg").innerHTML = segundos;
+			document.getElementById("abrir").style.display = "none";
+
+			refreshIntervalId = setInterval(function(){
+				document.getElementById("seg").innerHTML=--segundos;
+			}, 1000);
+
+			setTimeout(popup, 3000);
+		}
+
+		function cerrarVentanas() {
+			while(ventanas.length) {
+				ventanas.pop().close();
+			}
+			document.getElementById("cerrar").style.display = "none";
+			document.getElementById("abrir").style.display = "block";
+		}
+		
+		abrirVentanas();
+	</script>
+</html>
